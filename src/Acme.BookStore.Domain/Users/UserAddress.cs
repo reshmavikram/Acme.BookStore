@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities.Auditing;
 
-namespace Acme.BookStore.Books
+namespace Acme.BookStore.Users
 {
     public class UserAddress : AuditedAggregateRoot<Guid>
     {
@@ -15,9 +15,10 @@ namespace Acme.BookStore.Books
         public string? City { get; set; }
         public string? Country { get; set; }
 
-        //NAVIGATION
+        //NAVIGATION    
+
         public Guid? UserId { get; set; }//FK
-        public virtual User? User { get; set; }
+        public virtual TestUser? User { get; set; }
 
     }
 }
