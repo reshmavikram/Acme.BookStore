@@ -30,12 +30,30 @@ namespace Acme.BookStore.Customers
         }
       
 
-        public override async Task<CustomerDto> CreateAsync(CreateUpdateCustomerDto input)
+        public  async Task<CustomerDto> getTEST(CreateUpdateCustomerDto input)
         {
-            var customer = await _customerRepository.InsertAsync(new Customer { FirstName = input.FirstName, MiddleName = input.MiddleName, LastName = input.LastName });
-            var customerAddress = await _customerAddressRespository.InsertAsync(new CustomerAddress {CustomerId=customer.Id, AddressLine1="vdgs",AddressLine2="df",City="df",Country="df"});
-            var customerDto = ObjectMapper.Map<Customer, CustomerDto>(customer);
-            return await Task.FromResult(customerDto);
+            var customerDto2 = await base.CreateAsync(input);
+            var customerId = customerDto2.Id;
+            var customer = await _customerRepository
+                .InsertAsync(
+                new Customer { FirstName = input.FirstName, MiddleName = input.MiddleName, LastName = input.LastName },
+
+                true);
+
+
+            var customerAddress = await _customerAddressRespository
+                .InsertAsync(new CustomerAddress { 
+                    CustomerId = customerId,
+                    AddressLine1 = "vdgs12", 
+                    AddressLine2 = "df12121212", 
+                    City = "d1212f", 
+                    Country = "df1212" 
+                },true);
+
+           // var customerAddressDto = ObjectMapper.Map<CustomerAddress, CustomerAddressDto>(customerAddress);
+           // customerDto2.Address = customerAddressDto;
+            var x = await Task.FromResult(customerDto2);
+            return x;
         }
         /*
           public async override Task<CustomerAddressDto> CreateAsync(CreateUpdateCustomerAddressDto input)
