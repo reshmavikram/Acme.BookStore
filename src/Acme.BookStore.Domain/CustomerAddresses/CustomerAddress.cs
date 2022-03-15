@@ -18,8 +18,8 @@ namespace Acme.BookStore.CustomersAddresses
 
         //NAVIGATION    
 
-        public Guid? UserId { get; set; }//FK
-        public virtual Customer? Customer { get; set; }
+      public Guid? CustomerId { get; set; }//FK
+       public virtual Customer? Customer { get; set; }
 
     }
 }

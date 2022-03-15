@@ -152,6 +152,9 @@ namespace Acme.BookStore.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("CreatorId");
 
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ExtraProperties")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ExtraProperties");
@@ -165,6 +168,10 @@ namespace Acme.BookStore.Migrations
                         .HasColumnName("LastModifierId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerId")
+                        .IsUnique()
+                        .HasFilter("[CustomerId] IS NOT NULL");
 
                     b.ToTable("AppCustomerAddresses", (string)null);
                 });
@@ -2097,6 +2104,15 @@ namespace Acme.BookStore.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
+            modelBuilder.Entity("Acme.BookStore.CustomersAddresses.CustomerAddress", b =>
+                {
+                    b.HasOne("Acme.BookStore.Customers.Customer", "Customer")
+                        .WithOne("Address")
+                        .HasForeignKey("Acme.BookStore.CustomersAddresses.CustomerAddress", "CustomerId");
+
+                    b.Navigation("Customer");
+                });
+
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
                 {
                     b.HasOne("Volo.Abp.AuditLogging.AuditLog", null)
@@ -2372,6 +2388,11 @@ namespace Acme.BookStore.Migrations
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Acme.BookStore.Customers.Customer", b =>
+                {
+                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

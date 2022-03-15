@@ -17,7 +17,7 @@ namespace Acme.BookStore.Customers
         public string? LastName { get; set; }
 
         //Navigation
-        public virtual CustomerAddress? Address { get; set; }
+      public virtual CustomerAddress? Address { get; set; }
 
     }
 }

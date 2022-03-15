@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Acme.BookStore.Migrations
 {
     [DbContext(typeof(BookStoreDbContext))]
-    [Migration("20220313190658_customers_added")]
-    partial class customers_added
+    [Migration("20220315080928_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -154,6 +154,9 @@ namespace Acme.BookStore.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("CreatorId");
 
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ExtraProperties")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ExtraProperties");
@@ -166,14 +169,11 @@ namespace Acme.BookStore.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("LastModifierId");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
+                    b.HasIndex("CustomerId")
                         .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                        .HasFilter("[CustomerId] IS NOT NULL");
 
                     b.ToTable("AppCustomerAddresses", (string)null);
                 });
@@ -2110,7 +2110,7 @@ namespace Acme.BookStore.Migrations
                 {
                     b.HasOne("Acme.BookStore.Customers.Customer", "Customer")
                         .WithOne("Address")
-                        .HasForeignKey("Acme.BookStore.CustomersAddresses.CustomerAddress", "UserId");
+                        .HasForeignKey("Acme.BookStore.CustomersAddresses.CustomerAddress", "CustomerId");
 
                     b.Navigation("Customer");
                 });

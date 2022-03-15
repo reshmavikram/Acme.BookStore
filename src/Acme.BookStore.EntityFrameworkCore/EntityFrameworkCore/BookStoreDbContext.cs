@@ -87,8 +87,33 @@ public class BookStoreDbContext :
             b.ConfigureByConvention(); //auto configure for the base class props
             b.Property(x => x.Name).IsRequired().HasMaxLength(128);
         });
+        builder.Entity<Customer>(b =>
+        {
+            b.ToTable(BookStoreConsts.DbTablePrefix + "Customers",
+                BookStoreConsts.DbSchema);
+            b.ConfigureByConvention(); //auto configure for the base class props
+            b.Property(x => x.FirstName).IsRequired().HasMaxLength(128);
+        });
+        builder.Entity<CustomerAddress>(b =>
+        {
+            b.ToTable(BookStoreConsts.DbTablePrefix + "CustomerAddresses",
+                BookStoreConsts.DbSchema);
+            b.ConfigureByConvention(); //auto configure for the base class props
+           
+        });
+        var user = builder.Entity<Customer>();
+        user.HasKey(x => x.Id);
+        user.Property(p => p.FirstName).IsRequired();
 
-        
+
+
+
+        var address =builder.Entity<CustomerAddress>();
+       
+        address.HasOne(x => x.Customer) //fk 
+            .WithOne(x => x.Address)
+            .HasForeignKey<CustomerAddress>(fk => fk.CustomerId);
+
         /* Configure your own tables/entities inside here */
 
         //builder.Entity<YourEntity>(b =>
