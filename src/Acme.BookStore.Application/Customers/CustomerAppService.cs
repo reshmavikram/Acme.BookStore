@@ -1,5 +1,6 @@
 ﻿using Acme.BookStore.CustomerAddresses;
 using Acme.BookStore.CustomersAddresses;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,8 @@ namespace Acme.BookStore.Customers
 
 
         //custom APIs
-        public async Task<CustomerDto> GETTestDocument(CreateUpdateCustomerDto input)
+        [ActionName("AddTestDocument"), HttpPost]
+        public async Task<CustomerDto> AddTestDocument(CreateUpdateCustomerDto input)
         {
             try
             {
@@ -62,6 +64,34 @@ namespace Acme.BookStore.Customers
 
                 throw;
             }
+        }
+
+        //custom apis
+        public async Task<CustomerDto> getTEST(CreateUpdateCustomerDto input)
+        {
+            var customerDto2 = await base.CreateAsync(input);
+            var customerId = customerDto2.Id;
+            var customer = await _customerRepository
+                .InsertAsync(
+                new Customer { FirstName = input.FirstName, MiddleName = input.MiddleName, LastName = input.LastName },
+
+                true);
+
+
+            var customerAddress = await _customerAddressRespository
+                .InsertAsync(new CustomerAddress
+                {
+                    CustomerId = customerId,
+                    AddressLine1 = "vdgs12",
+                    AddressLine2 = "df12121212",
+                    City = "d1212f",
+                    Country = "df1212"
+                }, true);
+
+            // var customerAddressDto = ObjectMapper.Map<CustomerAddress, CustomerAddressDto>(customerAddress);
+            // customerDto2.Address = customerAddressDto;
+            var x = await Task.FromResult(customerDto2);
+            return x;
         }
 
     }
