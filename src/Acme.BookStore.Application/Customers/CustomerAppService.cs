@@ -52,7 +52,7 @@ namespace Acme.BookStore.Customers
                 {
                     var addressObj = ObjectMapper.Map<CreateUpdateCustomerAddressDto, CustomerAddress>(input.Addresses);
                     var address = await _customerAddressRespository.InsertAsync(addressObj, true);
-                    input.Addresses = ObjectMapper.Map<CustomerAddress, CreateUpdateCustomerAddressDto>(address);//
+                    //input.Addresses = ObjectMapper.Map<CustomerAddress, CreateUpdateCustomerAddressDto>(address);//
                 }
 
                 var resultDto = ObjectMapper.Map<CreateUpdateCustomerDto, CustomerDto>(input);

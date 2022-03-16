@@ -19,8 +19,8 @@ public class BookStoreApplicationAutoMapperProfile : Profile
         CreateMap<CreateUpdateCustomerDto, Customer>().ReverseMap();
         CreateMap<CreateUpdateCustomerDto, CustomerDto>().ReverseMap();
 
-        CreateMap<CustomerAddress, CustomerAddressDto>();
-        CreateMap<CreateUpdateCustomerAddressDto, CustomerAddress>();
+        CreateMap<CustomerAddress, CustomerAddressDto>().ReverseMap();
+        CreateMap<CreateUpdateCustomerAddressDto, CustomerAddress>().ReverseMap();
         CreateMap<CreateUpdateCustomerAddressDto, CustomerAddressDto>().ReverseMap();
     }
 }
